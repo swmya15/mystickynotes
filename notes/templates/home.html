@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sticky Notes</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #fff0b3, #ffe6e6);
+      font-family: 'Poppins', sans-serif;
+    }
+    .note-card {
+      transform-style: preserve-3d;
+      transition: transform 0.6s;
+    }
+    .note-card:hover {
+      transform: rotateY(180deg);
+    }
+    .note-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+    }
+    .front, .back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      padding: 1rem;
+    }
+    .front {
+      background: #fffa87;
+    }
+    .back {
+      background: #ffd6d6;
+      transform: rotateY(180deg);
+    }
+  </style>
+</head>
+<body class="p-8">
+  <div class="text-center mb-6">
+    <h1 class="text-4xl font-bold text-gray-800 mb-3">📝 My Sticky Notes</h1>
+    <form method="get">
+      <input type="text" name="q" value="{{ query }}" placeholder="Search notes..." class="p-2 rounded-lg border">
+      <button type="submit" class="bg-yellow-400 p-2 rounded-lg hover:bg-yellow-500">Search</button>
+      <a href="{% url 'add_note' %}" class="bg-pink-400 text-white p-2 rounded-lg hover:bg-pink-500 ml-2">+ Add Note</a>
+    </form>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    {% for note in notes %}
+    <div class="note-card w-full h-48 mx-auto">
+      <div class="note-inner">
+        <div class="front flex flex-col justify-between">
+          <h2 class="text-xl font-semibold">{{ note.title }}</h2>
+          <a href="{% url 'view_note' note.id %}" class="text-blue-600">View</a>
+        </div>
+        <div class="back flex flex-col justify-between">
+          <p class="text-gray-800 text-sm">{{ note.description|truncatechars:100 }}</p>
+          <a href="{% url 'delete_note' note.id %}" class="bg-red-400 text-white text-center rounded p-1 hover:bg-red-500">Delete</a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p class="text-gray-600 text-center w-full">No notes yet!</p>
+    {% endfor %}
+  </div>
+</body>
+</html>
