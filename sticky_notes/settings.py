@@ -23,9 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-a%3d4l974wfigdc@-o1&1-=wyeom==4%&2uh1d9z)_tm_t$9n!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+DEBUG = False
+ALLOWED_HOSTS = ['mystickynotes-3.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
